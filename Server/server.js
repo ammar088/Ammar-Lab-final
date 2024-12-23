@@ -36,7 +36,18 @@ app.post('/products', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await admin.auth().getUserByEmail(email);
+        res.json(user);
+    } catch (error) {
+        res.status(404).send('User not found.');
+    }
+});
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'Server connected successfully!' });
+});
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
